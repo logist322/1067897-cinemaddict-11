@@ -1,4 +1,4 @@
-export default () => {
+const createFilmCardTemplate = () => {
   return (
     `<article class="film-card">
       <h3 class="film-card__title">Made for Each Other</h3>
@@ -19,3 +19,5 @@ export default () => {
     </article>`
   );
 };
+
+export default createFilmCardTemplate;

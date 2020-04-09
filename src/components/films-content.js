@@ -1,4 +1,4 @@
-export default () => {
+const createSiteContentTemplate = () => {
   return (
     `<section class="films">
       <section class="films-list films-list--main">
@@ -10,3 +10,5 @@ export default () => {
     </section>`
   );
 };
+
+export default createSiteContentTemplate;

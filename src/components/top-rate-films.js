@@ -1,4 +1,4 @@
-export default () => {
+const createTopRateTemplate = () => {
   return (
     `<section class="films-list--extra films-list--top">
       <h2 class="films-list__title">Top rated</h2>
@@ -8,3 +8,5 @@ export default () => {
     </section>`
   );
 };
+
+export default createTopRateTemplate;

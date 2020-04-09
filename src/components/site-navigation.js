@@ -1,4 +1,4 @@
-export default () => {
+const createSiteNavigationTemplate = () => {
   return (
     `<nav class="main-navigation">
       <div class="main-navigation__items">
@@ -11,3 +11,5 @@ export default () => {
     </nav>`
   );
 };
+
+export default createSiteNavigationTemplate;
