@@ -1,15 +1,15 @@
+import createProfileButtonTemplate from './components/profile-button.js';
+import createSiteNavigationTemplate from './components/site-navigation.js';
+import createSiteSortTemplate from './components/films-sort.js';
+import createSiteContentTemplate from './components/films-content.js';
+import createTopRateTemplate from './components/top-rate-films.js';
+import createMostCommentedTemplate from './components/most-commented-films.js';
+import createFilmCardTemplate from './components/film-card.js';
+import createShowMoreButtonTemplate from './components/show-more-button.js';
+
 const MAIN_CARD_COUNT = 5;
 const TOP_CARD_COUNT = 2;
 const MOST_CARD_COUNT = 2;
-
-import {createProfileButtonTemplate} from './components/profile-button.js';
-import {createSiteNavigationTemplate} from './components/nav.js';
-import {createSiteSortTemplate} from './components/sort.js';
-import {createSiteContentTemplate} from './components/content.js';
-import {createTopRateTemplate} from './components/top-rate.js';
-import {createMostCommentedTemplate} from './components/most-commented.js';
-import {createFilmCardTemplate} from './components/film-card.js';
-import {createShowMoreButtonTemplate} from './components/show-more-button.js';
 
 const render = (container, template, place = `beforeend`) => {
   container.insertAdjacentHTML(place, template);

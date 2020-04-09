@@ -1,4 +1,4 @@
-export const createSiteNavigationTemplate = () => {
+export default () => {
   return (
     `<nav class="main-navigation">
       <div class="main-navigation__items">

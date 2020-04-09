@@ -1,4 +1,4 @@
-export const createSiteContentTemplate = () => {
+export default () => {
   return (
     `<section class="films">
       <section class="films-list films-list--main">
