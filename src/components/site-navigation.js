@@ -1,11 +1,19 @@
+import {FILTERS} from '../const.js';
+import {generateNavigationFilters} from '../mock/filters.js';
+
+const createNavigationFiltersMarkup = (filters) => {
+  return filters.map((filter, index) => {
+    return `<a href="${filter.link}" class="main-navigation__item ${index === 0 ? `main-navigation__item--active` : ``}">${filter.name} ${index > 0 ? `<span class="main-navigation__item-count">${filter.count}</span>` : ``}</a>`;
+  }).join(`\n`);
+};
+
 const createSiteNavigationTemplate = () => {
+  const filtersMarkup = createNavigationFiltersMarkup(generateNavigationFilters(FILTERS));
+
   return (
     `<nav class="main-navigation">
       <div class="main-navigation__items">
-        <a href="#all" class="main-navigation__item main-navigation__item--active">All movies</a>
-        <a href="#watchlist" class="main-navigation__item">Watchlist <span class="main-navigation__item-count">13</span></a>
-        <a href="#history" class="main-navigation__item">History <span class="main-navigation__item-count">4</span></a>
-        <a href="#favorites" class="main-navigation__item">Favorites <span class="main-navigation__item-count">8</span></a>
+        ${filtersMarkup}
       </div>
       <a href="#stats" class="main-navigation__additional">Stats</a>
     </nav>`
