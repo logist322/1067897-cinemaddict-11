@@ -3,7 +3,7 @@ export const getRandomCountOfElementsFromArray = (array, count) => {
   let resultArray = [];
 
   for (let i = 0; i < count; i++) {
-    resultArray = resultArray.concat(arrayCopy.splice(getRandomNumber(0, arrayCopy.length - 1), 1));
+    resultArray.push(...arrayCopy.splice(getRandomNumber(0, arrayCopy.length - 1), 1));
   }
 
   return resultArray;

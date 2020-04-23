@@ -1,4 +1,4 @@
-const createProfileButtonTemplate = (watchedFilmCount) => {
+const getRank = (watchedFilmCount) => {
   let rank;
 
   switch (true) {
@@ -17,6 +17,12 @@ const createProfileButtonTemplate = (watchedFilmCount) => {
     default:
       rank = `movie buff`;
   }
+
+  return rank;
+};
+
+const createProfileButtonTemplate = (watchedFilmCount) => {
+  const rank = getRank(watchedFilmCount);
 
   return (
     `<section class="header__profile profile">

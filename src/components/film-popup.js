@@ -1,22 +1,56 @@
-import {formatDuration} from '../utils.js';
-import createGenresMarkup from './genres-markup.js';
-import createDetailRowsMarkup from './detail-rows-markup.js';
-import createCommentsMarkup from './comments-markup.js';
+import {formatDuration, formatDate} from '../utils.js';
+
+const createGenresMarkup = (genres) => {
+  return genres.map((genre) => {
+    return `<span class="film-details__genre">${genre}</span>`;
+  }).join(`\n`);
+};
+
+const createDetailRowsMarkup = (details) => {
+  return Object.keys(details).map((it) => {
+    return (
+      `<tr class="film-details__row">
+        <td class="film-details__term">${it}</td>
+        <td class="film-details__cell">${details[it]}</td>
+      </tr>`
+    );
+  }).join(`\n`);
+};
+
+const createCommentsMarkup = (comments) => {
+  return comments.map((comment) => {
+    return (
+      `<li class="film-details__comment">
+        <span class="film-details__comment-emoji">
+          <img src="./images/emoji/${comment.emotion}" width="55" height="55" alt="emoji-smile">
+        </span>
+        <div>
+          <p class="film-details__comment-text">${comment.text}</p>
+          <p class="film-details__comment-info">
+            <span class="film-details__comment-author">${comment.author}</span>
+            <span class="film-details__comment-day">${formatDate(comment.date)}</span>
+            <button class="film-details__comment-delete">Delete</button>
+          </p>
+        </div>
+      </li>`
+    );
+  }).join(`\n`);
+};
 
 const createFilmPopup = (film) => {
   const {name, src, rating, release, duration, genres, description, comments, age, director, writers, actors, country} = film;
 
   const commentsCount = comments.length;
 
-  const details = [
-    [`Director`, director],
-    [`Writers`, writers.join(`, `)],
-    [`Actors`, actors.join(`, `)],
-    [`Release Date`, `${release.date} ${release.month} ${release.year}`],
-    [`Runtime`, formatDuration(duration)],
-    [`Country`, country],
-    [`Genres`, createGenresMarkup(genres)]
-  ];
+  const details = {
+    'Director': director,
+    'Writers': writers.join(`, `),
+    'Actors': actors.join(`, `),
+    'Release Date': `${release.date} ${release.month} ${release.year}`,
+    'Runtime': formatDuration(duration),
+    'Country': country,
+    'Genres': createGenresMarkup(genres)
+  };
 
   const detailRowsMarkup = createDetailRowsMarkup(details);
   const commentsMarkup = createCommentsMarkup(comments);
