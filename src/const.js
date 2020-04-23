@@ -114,3 +114,17 @@ export const COUNTRIES = [
   `UK`,
   `China`
 ];
+
+export const EMOTIONS = [
+  `angry.png`,
+  `puke.png`,
+  `sleeping.png`,
+  `smile.png`
+];
+
+export const COMMENT_AUTHORS = [
+  `Tim Macoveev`,
+  `John Doe`,
+  `Bob Brown`,
+  `Mike Smith`
+];

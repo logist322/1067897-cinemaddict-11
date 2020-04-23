@@ -1,13 +1,13 @@
-import {getRandomNumber, getRandomElementFromArray, getRandomCountOfElementsFromArray} from '../utils.js';
-import {GENRES, FILMS, DESCRIPTIONS, AGES, MONTH_NAMES, DIRECTORS, WRITERS, ACTORS, COUNTRIES} from '../const.js';
+import {getRandomNumber, getRandomElementFromArray, getRandomCountOfElementsFromArray, getRandomDate} from '../utils.js';
+import {GENRES, FILMS, DESCRIPTIONS, AGES, MONTH_NAMES, DIRECTORS, WRITERS, ACTORS, COUNTRIES, EMOTIONS, COMMENT_AUTHORS} from '../const.js';
 
 const generateComments = (count) => {
   return new Array(count).fill(``).map(() => {
     return {
       text: getRandomElementFromArray(DESCRIPTIONS),
-      emotion: `emotion`,
-      author: `author`,
-      date: `date`
+      emotion: getRandomElementFromArray(EMOTIONS),
+      author: getRandomElementFromArray(COMMENT_AUTHORS),
+      date: getRandomDate()
     };
   });
 };
@@ -27,7 +27,7 @@ export const generateFilmCard = () => {
     duration: getRandomNumber(25, 150),
     genres: getRandomCountOfElementsFromArray(GENRES, getRandomNumber(1, 3)),
     description: getRandomCountOfElementsFromArray(DESCRIPTIONS, getRandomNumber(1, 5)).join(` `),
-    comments: generateComments(getRandomNumber(0, 10)),
+    comments: generateComments(getRandomNumber(0, 5)),
     age: getRandomElementFromArray(AGES),
     director: getRandomElementFromArray(DIRECTORS),
     writers: getRandomCountOfElementsFromArray(WRITERS, 3),

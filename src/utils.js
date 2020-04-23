@@ -1,5 +1,5 @@
 export const getRandomCountOfElementsFromArray = (array, count) => {
-  let arrayCopy = array.slice();
+  const arrayCopy = array.slice();
   let resultArray = [];
 
   for (let i = 0; i < count; i++) {
@@ -32,4 +32,21 @@ export const getRandomNumber = (min, max, isReal = false) => {
 
 export const getRandomElementFromArray = (array) => {
   return array[getRandomNumber(0, array.length - 1)];
+};
+
+export const getRandomDate = () => {
+  const targetDate = new Date();
+
+  targetDate.setDate(targetDate.getDate() - getRandomNumber(0, 700));
+  targetDate.setHours(getRandomNumber(0, 23));
+  targetDate.setMinutes(getRandomNumber(0, 59));
+
+  return targetDate;
+};
+
+export const formatDate = (date) => {
+  const hours = date.getHours() < 10 ? `0${date.getHours()}` : date.getHours();
+  const minutes = date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes();
+
+  return `${date.getFullYear()}/${date.getMonth()}/${date.getDate()} ${hours}:${minutes}`;
 };
