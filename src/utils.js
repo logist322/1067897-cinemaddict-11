@@ -50,3 +50,18 @@ export const formatDate = (date) => {
 
   return `${date.getFullYear()}/${date.getMonth()}/${date.getDate()} ${hours}:${minutes}`;
 };
+
+export const createElement = (template) => {
+  const newElement = document.createElement(`div`);
+  newElement.innerHTML = template;
+
+  return newElement.firstChild;
+};
+
+export const render = (container, element, isAfterBegin = false) => {
+  if (isAfterBegin) {
+    container.prepend(element);
+  } else {
+    container.append(element);
+  }
+};
