@@ -73,6 +73,6 @@ export const render = (container, element, position = `beforeend`) => {
       break;
 
     default:
-      throw new Error(`Only 'afterend', 'beforeend' or 'afterbegin'`);
+      throw new Error(`Only 'afterend', 'beforeend' or 'afterbegin'.`);
   }
 };
