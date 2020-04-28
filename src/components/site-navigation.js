@@ -1,3 +1,4 @@
+import {createElement} from '../utils.js';
 import {FILTERS} from '../const.js';
 import {generateNavigationFilters} from '../mock/filters.js';
 
@@ -20,4 +21,24 @@ const createSiteNavigationTemplate = () => {
   );
 };
 
-export default createSiteNavigationTemplate;
+export default class SiteNavigation {
+  constructor() {
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createSiteNavigationTemplate();
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

@@ -1,3 +1,5 @@
+import {createElement} from '../utils.js';
+
 const getRank = (watchedFilmCount) => {
   let rank;
 
@@ -32,4 +34,25 @@ const createProfileButtonTemplate = (watchedFilmCount) => {
   );
 };
 
-export default createProfileButtonTemplate;
+export default class ProfileButton {
+  constructor(watchedFilmCount) {
+    this._watchedFilmCount = watchedFilmCount;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createProfileButtonTemplate(this._watchedFilmCount);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

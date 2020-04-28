@@ -1,4 +1,4 @@
-import {formatDuration, formatDate} from '../utils.js';
+import {formatDuration, formatDate, createElement} from '../utils.js';
 
 const createGenresMarkup = (genres) => {
   return genres.map((genre) => {
@@ -37,7 +37,7 @@ const createCommentsMarkup = (comments) => {
   }).join(`\n`);
 };
 
-const createFilmPopup = (film) => {
+const createFilmPopupTemplate = (film) => {
   const {name, src, rating, release, duration, genres, description, comments, age, director, writers, actors, country} = film;
 
   const commentsCount = comments.length;
@@ -147,4 +147,26 @@ const createFilmPopup = (film) => {
   );
 };
 
-export default createFilmPopup;
+export default class FilmPopup {
+  constructor(film) {
+    this._film = film;
+
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createFilmPopupTemplate(this._film);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

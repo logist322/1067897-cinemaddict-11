@@ -50,3 +50,29 @@ export const formatDate = (date) => {
 
   return `${date.getFullYear()}/${date.getMonth()}/${date.getDate()} ${hours}:${minutes}`;
 };
+
+export const createElement = (template) => {
+  const newElement = document.createElement(`div`);
+  newElement.innerHTML = template;
+
+  return newElement.firstChild;
+};
+
+export const render = (container, element, position = `beforeend`) => {
+  switch (position) {
+    case `afterend`:
+      container.after(element);
+      break;
+
+    case `beforeend`:
+      container.append(element);
+      break;
+
+    case `afterbegin`:
+      container.prepend(element);
+      break;
+
+    default:
+      throw new Error(`Only 'afterend', 'beforeend' or 'afterbegin'`);
+  }
+};

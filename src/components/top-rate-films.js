@@ -1,3 +1,5 @@
+import {createElement} from '../utils.js';
+
 const createTopRateTemplate = () => {
   return (
     `<section class="films-list--extra films-list--top">
@@ -9,4 +11,24 @@ const createTopRateTemplate = () => {
   );
 };
 
-export default createTopRateTemplate;
+export default class TopRate {
+  constructor() {
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createTopRateTemplate();
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
