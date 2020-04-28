@@ -1,6 +1,6 @@
 import {createElement} from '../utils.js';
 
-const createMainListTemplate = (isAnyFilms) => {
+const createMainListFilmsTemplate = (isAnyFilms) => {
   const heading = isAnyFilms ? `All movies. Upcoming` : `There are no movies in our database`;
 
   return (
@@ -13,7 +13,7 @@ const createMainListTemplate = (isAnyFilms) => {
   );
 };
 
-export default class MainList {
+export default class MainListFilms {
   constructor(isAnyFilms = true) {
     this._isAnyFilms = isAnyFilms;
 
@@ -21,7 +21,7 @@ export default class MainList {
   }
 
   getTemplate() {
-    return createMainListTemplate(this._isAnyFilms);
+    return createMainListFilmsTemplate(this._isAnyFilms);
   }
 
   getElement() {

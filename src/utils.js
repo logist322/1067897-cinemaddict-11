@@ -58,10 +58,21 @@ export const createElement = (template) => {
   return newElement.firstChild;
 };
 
-export const render = (container, element, isAfterBegin = false) => {
-  if (isAfterBegin) {
-    container.prepend(element);
-  } else {
-    container.append(element);
+export const render = (container, element, position = `beforeend`) => {
+  switch (position) {
+    case `afterend`:
+      container.after(element);
+      break;
+
+    case `beforeend`:
+      container.append(element);
+      break;
+
+    case `afterbegin`:
+      container.prepend(element);
+      break;
+
+    default:
+      throw new Error(`Only 'afterend', 'beforeend' or 'afterbegin'`);
   }
 };
