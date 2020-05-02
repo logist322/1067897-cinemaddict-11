@@ -1,4 +1,4 @@
-import {createElement} from '../utils.js';
+import AbstractComponent from './abstract-component.js';
 
 const getRank = (watchedFilmCount) => {
   let rank;
@@ -34,25 +34,14 @@ const createProfileButtonTemplate = (watchedFilmCount) => {
   );
 };
 
-export default class ProfileButton {
+export default class ProfileButton extends AbstractComponent {
   constructor(watchedFilmCount) {
+    super();
+
     this._watchedFilmCount = watchedFilmCount;
-    this._element = null;
   }
 
   getTemplate() {
     return createProfileButtonTemplate(this._watchedFilmCount);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

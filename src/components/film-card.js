@@ -1,4 +1,5 @@
-import {formatDuration, createElement} from '../utils.js';
+import {formatDuration} from '../utils/common.js';
+import AbstractComponent from './abstract-component.js';
 
 const createFilmCardTemplate = (film) => {
   const {name, src, rating, release, duration, genres, description, comments} = film;
@@ -27,26 +28,18 @@ const createFilmCardTemplate = (film) => {
   );
 };
 
-export default class Film {
+export default class Film extends AbstractComponent {
   constructor(film) {
-    this._film = film;
+    super();
 
-    this._element = null;
+    this._film = film;
   }
 
   getTemplate() {
     return createFilmCardTemplate(this._film);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
+  setPosterClickhandler(handler) {
+    this.getElement().querySelector(`.film-card__poster`).addEventListener(`click`, handler);
   }
 }
