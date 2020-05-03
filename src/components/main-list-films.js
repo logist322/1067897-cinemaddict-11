@@ -1,4 +1,4 @@
-import {createElement} from '../utils.js';
+import AbstractComponent from './abstract-component.js';
 
 const createMainListFilmsTemplate = (isAnyFilms) => {
   const heading = isAnyFilms ? `All movies. Upcoming` : `There are no movies in our database`;
@@ -13,26 +13,14 @@ const createMainListFilmsTemplate = (isAnyFilms) => {
   );
 };
 
-export default class MainListFilms {
+export default class MainListFilms extends AbstractComponent {
   constructor(isAnyFilms = true) {
-    this._isAnyFilms = isAnyFilms;
+    super();
 
-    this._element = null;
+    this._isAnyFilms = isAnyFilms;
   }
 
   getTemplate() {
     return createMainListFilmsTemplate(this._isAnyFilms);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

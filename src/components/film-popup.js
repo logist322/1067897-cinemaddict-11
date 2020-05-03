@@ -1,4 +1,5 @@
-import {formatDuration, formatDate, createElement} from '../utils.js';
+import {formatDuration, formatDate} from '../utils/common.js';
+import AbstractComponent from './abstract-component.js';
 
 const createGenresMarkup = (genres) => {
   return genres.map((genre) => {
@@ -147,26 +148,18 @@ const createFilmPopupTemplate = (film) => {
   );
 };
 
-export default class FilmPopup {
+export default class FilmPopup extends AbstractComponent {
   constructor(film) {
-    this._film = film;
+    super();
 
-    this._element = null;
+    this._film = film;
   }
 
   getTemplate() {
     return createFilmPopupTemplate(this._film);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
+  setCloseButtonClickHandler(handler) {
+    this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, handler);
   }
 }

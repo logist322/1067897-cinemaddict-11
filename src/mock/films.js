@@ -1,4 +1,4 @@
-import {getRandomNumber, getRandomElementFromArray, getRandomCountOfElementsFromArray, getRandomDate} from '../utils.js';
+import {getRandomNumber, getRandomElementFromArray, getRandomCountOfElementsFromArray, getRandomDate} from '../utils/common.js';
 import {GENRES, FILMS, DESCRIPTIONS, AGES, MONTH_NAMES, DIRECTORS, WRITERS, ACTORS, COUNTRIES, EMOTIONS, COMMENT_AUTHORS} from '../const.js';
 
 const generateComments = (count) => {
