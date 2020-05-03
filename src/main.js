@@ -1,6 +1,5 @@
 import ProfileButtonComponent from './components/profile-button.js';
 import SiteNavigationComponent from './components/site-navigation.js';
-import SortComponent from './components/sort.js';
 import ContentBoardComponent from './components/content-board.js';
 import PageController from './controllers/page-controller.js';
 import {generateUserRank} from './mock/user-rank.js';
@@ -14,7 +13,6 @@ const siteMainElement = document.querySelector(`.main`);
 
 render(siteHeaderElement, new ProfileButtonComponent(generateUserRank()));
 render(siteMainElement, new SiteNavigationComponent());
-render(siteMainElement, new SortComponent());
 
 const films = generateFilmCards(MAIN_CARD_COUNT);
 
