@@ -61,21 +61,6 @@ export const GENRES = [
 
 export const AGES = [0, 6, 12, 16, 18];
 
-export const MONTH_NAMES = [
-  `January`,
-  `February`,
-  `March`,
-  `April`,
-  `May`,
-  `June`,
-  `July`,
-  `August`,
-  `September`,
-  `October`,
-  `November`,
-  `December`,
-];
-
 export const DIRECTORS = [
   `Anthony Mann`,
   `Steven Spielberg`,

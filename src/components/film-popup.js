@@ -1,5 +1,6 @@
 import {formatDuration, formatDate} from '../utils/common.js';
 import AbstractComponent from './abstract-component.js';
+import moment from 'moment';
 
 const createGenresMarkup = (genres) => {
   return genres.map((genre) => {
@@ -49,7 +50,7 @@ const createFilmPopupTemplate = (film) => {
     'Director': director,
     'Writers': writers.join(`, `),
     'Actors': actors.join(`, `),
-    'Release Date': `${release.date} ${release.month} ${release.year}`,
+    'Release Date': moment(release).format(`D MMMM YYYY`),
     'Runtime': formatDuration(duration),
     'Country': country,
     'Genres': createGenresMarkup(genres)
