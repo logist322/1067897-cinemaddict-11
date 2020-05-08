@@ -33,6 +33,11 @@ export const generateFilmCard = () => {
     writers: getRandomCountOfElementsFromArray(WRITERS, 3),
     actors: getRandomCountOfElementsFromArray(ACTORS, 3),
     country: getRandomElementFromArray(COUNTRIES),
+    controls: {
+      isInWatchlist: Math.random() > 0.5,
+      isWatched: Math.random() > 0.5,
+      isFavorite: Math.random() > 0.5,
+    }
   };
 };
 

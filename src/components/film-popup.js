@@ -39,7 +39,9 @@ const createCommentsMarkup = (comments) => {
 };
 
 const createFilmPopupTemplate = (film) => {
-  const {name, src, rating, release, duration, genres, description, comments, age, director, writers, actors, country} = film;
+  const {name, src, rating, release, duration, genres, description, comments, age, director, writers, actors, country, controls} = film;
+
+  const {isInWatchlist, isWatched, isFavorite} = controls;
 
   const commentsCount = comments.length;
 
@@ -91,15 +93,14 @@ const createFilmPopupTemplate = (film) => {
               </p>
             </div>
           </div>
-
           <section class="film-details__controls">
-            <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist">
+            <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist" data-controls="isInWatchlist" ${isInWatchlist ? `checked` : ``}>
             <label for="watchlist" class="film-details__control-label film-details__control-label--watchlist">Add to watchlist</label>
 
-            <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched">
+            <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched" data-controls="isWatched" ${isWatched ? `checked` : ``}>
             <label for="watched" class="film-details__control-label film-details__control-label--watched">Already watched</label>
 
-            <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite">
+            <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite" data-controls="isFavorite" ${isFavorite ? `checked` : ``}>
             <label for="favorite" class="film-details__control-label film-details__control-label--favorite">Add to favorites</label>
           </section>
         </div>
@@ -113,7 +114,9 @@ const createFilmPopupTemplate = (film) => {
             </ul>
 
             <div class="film-details__new-comment">
-              <div for="add-emoji" class="film-details__add-emoji-label"></div>
+              <div for="add-emoji" class="film-details__add-emoji-label">
+
+              </div>
 
               <label class="film-details__comment-label">
                 <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment"></textarea>
@@ -153,6 +156,8 @@ export default class FilmPopup extends AbstractComponent {
     super();
 
     this._film = film;
+
+    this._subscribeOnEvents();
   }
 
   getTemplate() {
@@ -161,5 +166,29 @@ export default class FilmPopup extends AbstractComponent {
 
   setCloseButtonClickHandler(handler) {
     this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, handler);
+  }
+
+  setControlsChangeHandler(handler) {
+    this._controlsHandler = handler;
+
+    this.getElement().querySelector(`.film-details__controls`).addEventListener(`change`, (evt) => {
+      handler(evt.target.dataset.controls);
+    });
+  }
+
+  _subscribeOnEvents() {
+    const newCommentContainerElement = this.getElement().querySelector(`.film-details__new-comment`);
+
+    newCommentContainerElement.addEventListener(`change`, (evt) => {
+      if (evt.target.tagName !== `INPUT`) {
+        return;
+      }
+
+      const imgContainerElement = newCommentContainerElement.querySelector(`.film-details__add-emoji-label`);
+
+      this._pickedEmotion = evt.target.value;
+
+      imgContainerElement.innerHTML = `<img src="images/emoji/${evt.target.value}.png" width="55" height="55" alt="emoji-${evt.target.value}">`;
+    });
   }
 }
