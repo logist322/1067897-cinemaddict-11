@@ -80,31 +80,15 @@ export default class PageController {
 
     render(container, this._mainListFilmsComponent);
 
-    this._filmsToShow = this._films.slice();
-
-    this._filmToShowIndex = CARD_COUNT_ON_START;
-
-    const newFilms = renderFilms(this._mainListFilmsComponent.getElement().querySelector(`.films-list__container`), this._filmsToShow.slice(0, this._filmToShowIndex), this._dataChangeHandler);
-
-    this._shownFilmsControllers = newFilms;
-
-    this._shownFilmsCount = this._filmToShowIndex;
+    this._renderMainFilmList();
 
     this._renderShowMoreButton();
 
     render(container, this._topRateFilmsComponent);
 
-    this._topRatedToShow = this._films.slice().sort((a, b) => b.rating - a.rating).slice(0, TOP_CARD_COUNT);
-
-    const topRateControllers = renderFilms(this._topRateFilmsComponent.getElement().querySelector(`.films-list__container`), this._topRatedToShow, this._dataChangeHandler);
-
     render(container, this._mostCommentedFilmsComponent);
 
-    this._mostCommentedToShow = this._films.slice().sort((a, b) => b.comments.length - a.comments.length).slice(0, MOST_CARD_COUNT);
-
-    const mostCommentedControllers = renderFilms(this._mostCommentedFilmsComponent.getElement().querySelector(`.films-list__container`), this._mostCommentedToShow, this._dataChangeHandler);
-
-    this._shownFilmsControllers = [...topRateControllers, ...mostCommentedControllers, ...this._shownFilmsControllers];
+    this._renderExtraFilmList();
   }
 
   _renderShowMoreButton() {
@@ -193,5 +177,29 @@ export default class PageController {
         this._shownFilmsControllers[controllersIndex].render(this._films[index]);
       }
     }
+  }
+
+  _renderMainFilmList() {
+    this._filmsToShow = this._films.slice();
+
+    this._filmToShowIndex = CARD_COUNT_ON_START;
+
+    const newFilms = renderFilms(this._mainListFilmsComponent.getElement().querySelector(`.films-list__container`), this._filmsToShow.slice(0, this._filmToShowIndex), this._dataChangeHandler);
+
+    this._shownFilmsControllers = newFilms;
+
+    this._shownFilmsCount = this._filmToShowIndex;
+  }
+
+  _renderExtraFilmList() {
+    this._topRatedToShow = this._films.slice().sort((a, b) => b.rating - a.rating).slice(0, TOP_CARD_COUNT);
+
+    const topRateControllers = renderFilms(this._topRateFilmsComponent.getElement().querySelector(`.films-list__container`), this._topRatedToShow, this._dataChangeHandler);
+
+    this._mostCommentedToShow = this._films.slice().sort((a, b) => b.comments.length - a.comments.length).slice(0, MOST_CARD_COUNT);
+
+    const mostCommentedControllers = renderFilms(this._mostCommentedFilmsComponent.getElement().querySelector(`.films-list__container`), this._mostCommentedToShow, this._dataChangeHandler);
+
+    this._shownFilmsControllers = [...topRateControllers, ...mostCommentedControllers, ...this._shownFilmsControllers];
   }
 }
