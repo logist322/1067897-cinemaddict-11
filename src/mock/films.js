@@ -1,5 +1,5 @@
 import {getRandomNumber, getRandomElementFromArray, getRandomCountOfElementsFromArray, getRandomDate} from '../utils/common.js';
-import {GENRES, FILMS, DESCRIPTIONS, AGES, MONTH_NAMES, DIRECTORS, WRITERS, ACTORS, COUNTRIES, EMOTIONS, COMMENT_AUTHORS} from '../const.js';
+import {GENRES, FILMS, DESCRIPTIONS, AGES, DIRECTORS, WRITERS, ACTORS, COUNTRIES, EMOTIONS, COMMENT_AUTHORS} from '../const.js';
 
 const generateComments = (count) => {
   return new Array(count).fill(``).map(() => {
@@ -19,11 +19,7 @@ export const generateFilmCard = () => {
     name: film.name,
     src: film.src,
     rating: getRandomNumber(0, 10, true).toFixed(1),
-    release: {
-      date: getRandomNumber(1, 30),
-      month: getRandomElementFromArray(MONTH_NAMES),
-      year: getRandomNumber(1900, 2020)
-    },
+    release: getRandomDate(),
     duration: getRandomNumber(25, 150),
     genres: getRandomCountOfElementsFromArray(GENRES, getRandomNumber(1, 3)),
     description: getRandomCountOfElementsFromArray(DESCRIPTIONS, getRandomNumber(1, 5)).join(` `),

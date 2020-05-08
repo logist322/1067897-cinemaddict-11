@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 export const getRandomCountOfElementsFromArray = (array, count) => {
   const arrayCopy = array.slice();
   let resultArray = [];
@@ -10,13 +12,10 @@ export const getRandomCountOfElementsFromArray = (array, count) => {
 };
 
 export const formatDuration = (duration) => {
-  let hours = Math.floor(duration / 60);
-  let minutes = duration % 60;
+  const hours = moment.duration(duration, `minutes`).hours();
+  const minutes = moment.duration(duration, `minutes`).minutes();
 
-  hours = hours ? `${hours}h` : ``;
-  minutes = minutes ? `${minutes}m` : ``;
-
-  return `${hours} ${minutes}`;
+  return `${hours ? `${hours}h` : ``} ${minutes}m`;
 };
 
 export const getRandomNumber = (min, max, isReal = false) => {
@@ -37,6 +36,7 @@ export const getRandomElementFromArray = (array) => {
 export const getRandomDate = () => {
   const targetDate = new Date();
 
+  targetDate.setFullYear(targetDate.getFullYear() - getRandomNumber(0, 70));
   targetDate.setDate(targetDate.getDate() - getRandomNumber(0, 700));
   targetDate.setHours(getRandomNumber(0, 23));
   targetDate.setMinutes(getRandomNumber(0, 59));
@@ -45,10 +45,7 @@ export const getRandomDate = () => {
 };
 
 export const formatDate = (date) => {
-  const hours = date.getHours() < 10 ? `0${date.getHours()}` : date.getHours();
-  const minutes = date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes();
-
-  return `${date.getFullYear()}/${date.getMonth()}/${date.getDate()} ${hours}:${minutes}`;
+  return moment(date).format(`YYYY/M/D HH:mm`);
 };
 
 export const createElement = (template) => {
