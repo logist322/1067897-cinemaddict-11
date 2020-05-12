@@ -1,16 +1,11 @@
-export const FILTERS = [{
-  name: `All movies`,
-  link: `#all`
-}, {
-  name: `Watchlist`,
-  link: `#watchlist`
-}, {
-  name: `History`,
-  link: `#history`
-}, {
-  name: `Favorites`,
-  link: `#favorites`
-}];
+export const FILTERS = [`All movies`, `Watchlist`, `History`, `Favorites`];
+
+export const FilterType = {
+  ALL: `#all`,
+  WATCHLIST: `#watchlist`,
+  WATCHED: `#history`,
+  FAVORITES: `#favorites`
+};
 
 export const FILMS = [{
   name: `Made for Each Other`,
@@ -101,10 +96,10 @@ export const COUNTRIES = [
 ];
 
 export const EMOTIONS = [
-  `angry.png`,
-  `puke.png`,
-  `sleeping.png`,
-  `smile.png`
+  `angry`,
+  `puke`,
+  `sleeping`,
+  `smile`
 ];
 
 export const COMMENT_AUTHORS = [

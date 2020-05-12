@@ -1,14 +1,15 @@
 import FilmCardComponent from '../components/film-card.js';
 import FilmPopupComponent from '../components/film-popup.js';
+import CommentsController from '../controllers/comments.js';
 import PosterControlsComponent from '../components/poster-controls.js';
-import {render, replace} from '../utils/render.js';
+import {render, replace, remove} from '../utils/render.js';
 
 export default class MovieController {
   constructor(container, dataChangeHandler) {
     this._container = container;
     this._dataChangeHandler = dataChangeHandler;
 
-    this._popupMode = false;
+    this._film = null;
 
     this._filmCardComponent = null;
     this._filmPopupComponent = null;
@@ -19,30 +20,24 @@ export default class MovieController {
     this._escapeButtonHandler = this._escapeButtonHandler.bind(this);
     this._closePopupHandler = this._closePopupHandler.bind(this);
     this._openPopupHandler = this._openPopupHandler.bind(this);
+    this._changeData = this._changeData.bind(this);
   }
 
   render(film) {
-    const oldPosterControlsComponent = this._posterControlsComponent;
-    this._oldPopupComponent = this._filmPopupComponent;
+    this._film = film;
 
-    if (!this._popupMode) {
-      this._filmPopupComponent = new FilmPopupComponent(film);
-    }
+    const oldPosterControlsComponent = this._posterControlsComponent;
+    const oldPopupComponent = this._filmPopupComponent;
 
     this._filmCardComponent = new FilmCardComponent(film);
     this._posterControlsComponent = new PosterControlsComponent(film.controls);
 
-
     this._filmCardComponent.setOpenPopupClickHandlers(this._openPopupHandler);
 
-    this._setChangeHandlers(film);
+    this._posterControlsComponent.setControlsClickHandler(this._changeData);
 
-    if (oldPosterControlsComponent && this._oldPopupComponent) {
+    if (oldPosterControlsComponent && oldPopupComponent) {
       replace(this._posterControlsComponent, oldPosterControlsComponent);
-
-      if (!this._popupMode) {
-        replace(this._filmPopupComponent, this._oldPopupComponent);
-      }
 
       return;
     }
@@ -53,49 +48,42 @@ export default class MovieController {
 
   _escapeButtonHandler(evt) {
     if (evt.key === `Esc` || evt.key === `Escape`) {
-      this._filmPopupComponent.getElement().remove();
-      document.removeEventListener(`keydown`, this._escapeButtonHandler);
-
-      this._popupMode = false;
-
-      document.body.classList.remove(`hide-overflow`);
+      this._closePopupHandler();
     }
   }
 
-  _setChangeHandlers(film) {
-    const changeData = (field) => {
-      const changedData = Object.assign({}, film.controls, {[field]: !film.controls[field]});
+  _changeData(field) {
+    const changedData = Object.assign({}, this._film.controls, {[field]: !this._film.controls[field]});
 
-      this._dataChangeHandler(film, Object.assign({}, film, {controls: changedData}));
-    };
-
-    this._posterControlsComponent.setControlsClickHandler(changeData);
-    this._filmPopupComponent.setControlsChangeHandler(changeData);
+    this._dataChangeHandler(this._film, Object.assign({}, this._film, {controls: changedData}));
   }
 
-  _openPopupHandler(evt) {
-    evt.preventDefault();
+  _openPopupHandler() {
+    this._filmPopupComponent = new FilmPopupComponent(this._film);
+    render(document.body, this._filmPopupComponent);
+
+    this._commentsController = new CommentsController(this._filmPopupComponent.getElement().querySelector(`form`), this._film.comments);
+    this._commentsController.render();
 
     this._filmPopupComponent.setCloseButtonClickHandler(this._closePopupHandler);
 
     document.body.classList.add(`hide-overflow`);
 
-    render(document.body, this._filmPopupComponent);
     document.addEventListener(`keydown`, this._escapeButtonHandler);
-
-    if (this._oldPopupComponent) {
-      replace(this._filmPopupComponent, this._oldPopupComponent);
-    }
-
-    this._popupMode = true;
   }
 
-  _closePopupHandler(evt) {
-    evt.preventDefault();
-    this._filmPopupComponent.getElement().remove();
+  _closePopupHandler() {
+    this._dataChangeHandler(this._film, Object.assign({}, this._film, this._filmPopupComponent.getControlsStatus(), {comments: this._commentsController.getComments()}));
 
-    this._popupMode = false;
+    this._commentsController.destroy();
+    remove(this._filmPopupComponent);
+
+    document.removeEventListener(`keydown`, this._escapeButtonHandler);
 
     document.body.classList.remove(`hide-overflow`);
+  }
+
+  destroy() {
+    remove(this._filmCardComponent);
   }
 }
