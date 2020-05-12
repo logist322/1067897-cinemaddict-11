@@ -4,6 +4,7 @@ import {GENRES, FILMS, DESCRIPTIONS, AGES, DIRECTORS, WRITERS, ACTORS, COUNTRIES
 const generateComments = (count) => {
   return new Array(count).fill(``).map(() => {
     return {
+      id: String(new Date() + Math.random()),
       text: getRandomElementFromArray(DESCRIPTIONS),
       emotion: getRandomElementFromArray(EMOTIONS),
       author: getRandomElementFromArray(COMMENT_AUTHORS),
@@ -16,6 +17,7 @@ export const generateFilmCard = () => {
   const film = getRandomElementFromArray(FILMS);
 
   return {
+    id: String(new Date() + Math.random()),
     name: film.name,
     src: film.src,
     rating: getRandomNumber(0, 10, true).toFixed(1),
