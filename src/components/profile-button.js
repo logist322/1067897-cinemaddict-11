@@ -1,6 +1,6 @@
 import AbstractComponent from './abstract-component.js';
 
-const getRank = (watchedFilmCount) => {
+export const getRank = (watchedFilmCount) => {
   let rank;
 
   switch (true) {
@@ -35,13 +35,20 @@ const createProfileButtonTemplate = (watchedFilmCount) => {
 };
 
 export default class ProfileButton extends AbstractComponent {
-  constructor(watchedFilmCount) {
+  constructor(filmsModel) {
     super();
 
-    this._watchedFilmCount = watchedFilmCount;
+    this._filmsModel = filmsModel;
+
+    this.refreshRank = this.refreshRank.bind(this);
+    this._filmsModel.setDataChangeHandler(this.refreshRank);
   }
 
   getTemplate() {
-    return createProfileButtonTemplate(this._watchedFilmCount);
+    return createProfileButtonTemplate(this._filmsModel.getWatchedFilms().length);
+  }
+
+  refreshRank() {
+    this._element.querySelector(`.profile__rating`).textContent = getRank(this._filmsModel.getWatchedFilms().length);
   }
 }

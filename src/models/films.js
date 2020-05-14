@@ -14,6 +14,10 @@ export default class Films {
     return this._films;
   }
 
+  getWatchedFilms() {
+    return getFilmsByFilter(this._films, FilterType.WATCHED);
+  }
+
   getFilms() {
     return getFilmsByFilter(this._films, this._activeFilter);
   }
@@ -34,6 +38,10 @@ export default class Films {
 
     if (index === -1) {
       return false;
+    }
+
+    if (this._films[index].controls.isWatched !== film.controls.isWatched && film.controls.isWatched) {
+      film.watchingDate = new Date();
     }
 
     this._films = [...this._films.slice(0, index), film, ...this._films.slice(index + 1)];
