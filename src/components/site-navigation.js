@@ -12,4 +12,14 @@ export default class SiteNavigation extends AbstractComponent {
   getTemplate() {
     return createSiteNavigationTemplate();
   }
+
+  setClickHandler(handler) {
+    this.getElement().addEventListener(`click`, (evt) => {
+      if (evt.target.tagName !== `A`) {
+        return;
+      }
+
+      handler(evt.target.getAttribute(`href`) === `#stats`);
+    });
+  }
 }

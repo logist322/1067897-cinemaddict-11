@@ -82,6 +82,14 @@ export default class PageController {
     this._updateFilms();
   }
 
+  show() {
+    this._container.show();
+  }
+
+  hide() {
+    this._container.hide();
+  }
+
   _renderShowMoreButton() {
     remove(this._showMoreButtonComponent);
 

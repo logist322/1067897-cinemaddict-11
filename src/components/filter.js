@@ -29,14 +29,15 @@ export default class Filter extends AbstractComponent {
 
   setFilterChangeHandler(handler) {
     this.getElement().addEventListener(`click`, (evt) => {
-      if (evt.target.tagName !== `A`) {
-        return;
+      if (evt.target.tagName === `A` || evt.target.parentElement.tagName === `A`) {
+        evt.preventDefault();
+
+        const filterName = evt.target.tagName === `A` ? evt.target.getAttribute(`href`) : evt.target.parentElement.getAttribute(`href`);
+
+        handler(filterName);
       }
-      evt.preventDefault();
 
-      const filterName = (evt.target.getAttribute(`href`));
-
-      handler(filterName);
+      return;
     });
   }
 }

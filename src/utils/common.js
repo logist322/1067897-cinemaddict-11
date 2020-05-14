@@ -33,11 +33,14 @@ export const getRandomElementFromArray = (array) => {
   return array[getRandomNumber(0, array.length - 1)];
 };
 
-export const getRandomDate = () => {
+export const getRandomDate = (isSettingBigYearRange = false) => {
   const targetDate = new Date();
 
-  targetDate.setFullYear(targetDate.getFullYear() - getRandomNumber(0, 70));
-  targetDate.setDate(targetDate.getDate() - getRandomNumber(0, 700));
+  if (isSettingBigYearRange) {
+    targetDate.setFullYear(targetDate.getFullYear() - getRandomNumber(0, 70));
+  }
+
+  targetDate.setDate(targetDate.getDate() - getRandomNumber(0, 30));
   targetDate.setHours(getRandomNumber(0, 23));
   targetDate.setMinutes(getRandomNumber(0, 59));
 

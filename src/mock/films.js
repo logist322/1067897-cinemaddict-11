@@ -21,7 +21,7 @@ export const generateFilmCard = () => {
     name: film.name,
     src: film.src,
     rating: getRandomNumber(0, 10, true).toFixed(1),
-    release: getRandomDate(),
+    release: getRandomDate(true),
     duration: getRandomNumber(25, 150),
     genres: getRandomCountOfElementsFromArray(GENRES, getRandomNumber(1, 3)),
     description: getRandomCountOfElementsFromArray(DESCRIPTIONS, getRandomNumber(1, 5)).join(` `),
@@ -35,7 +35,8 @@ export const generateFilmCard = () => {
       isInWatchlist: Math.random() > 0.5,
       isWatched: Math.random() > 0.5,
       isFavorite: Math.random() > 0.5,
-    }
+    },
+    watchingDate: getRandomDate()
   };
 };
 
