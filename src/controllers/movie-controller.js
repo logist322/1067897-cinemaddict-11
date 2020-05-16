@@ -89,7 +89,7 @@ export default class MovieController {
   }
 
   _commentAddHandler(comment) {
-    this._api.addComment(this._film.id, comment)
+    this._api.addComment(this._film.id, JSON.stringify(comment))
       .then((res) => res.json())
       .then((parsedRes) => {
         this._film.comments = parsedRes[`comments`];

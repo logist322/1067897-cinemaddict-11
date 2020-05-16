@@ -29,11 +29,11 @@ export default class API {
       .then(Film.parseFilms);
   }
 
-  updateFilm(id, data) {
+  updateFilm(id, film) {
     return this._load({
       url: `movies/${id}`,
       method: Method.PUT,
-      body: JSON.stringify(data.toRAW()),
+      body: film,
       headers: new Headers({"Content-Type": `application/json`})
     })
       .then((res) => res.json())
@@ -47,11 +47,11 @@ export default class API {
       .then((res) => res.json());
   }
 
-  addComment(id, data) {
+  addComment(id, comment) {
     return this._load({
       url: `comments/${id}`,
       method: Method.POST,
-      body: JSON.stringify(data),
+      body: comment,
       headers: new Headers({"Content-Type": `application/json`})
     });
   }

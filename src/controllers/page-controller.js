@@ -132,7 +132,7 @@ export default class PageController {
   }
 
   _dataChangeHandler(oldData, newData) {
-    this._api.updateFilm(oldData.id, newData)
+    this._api.updateFilm(oldData.id, JSON.stringify(newData.toRAW()))
       .then((film) => {
         this._filmsModel.updateFilm(oldData.id, film);
 
