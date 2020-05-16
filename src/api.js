@@ -22,7 +22,7 @@ export default class API {
   }
 
   getFilms() {
-    return this._load({
+    return this._sendRequest({
       url: `movies`
     })
       .then((res) => res.json())
@@ -30,7 +30,7 @@ export default class API {
   }
 
   updateFilm(id, film) {
-    return this._load({
+    return this._sendRequest({
       url: `movies/${id}`,
       method: Method.PUT,
       body: film,
@@ -41,14 +41,14 @@ export default class API {
   }
 
   getComments(id) {
-    return this._load({
+    return this._sendRequest({
       url: `comments/${id}`
     })
       .then((res) => res.json());
   }
 
   addComment(id, comment) {
-    return this._load({
+    return this._sendRequest({
       url: `comments/${id}`,
       method: Method.POST,
       body: comment,
@@ -57,10 +57,10 @@ export default class API {
   }
 
   deleteComment(id) {
-    return this._load({url: `comments/${id}`, method: Method.DELETE});
+    return this._sendRequest({url: `comments/${id}`, method: Method.DELETE});
   }
 
-  _load({url, method = Method.GET, body = null, headers = new Headers()}) {
+  _sendRequest({url, method = Method.GET, body = null, headers = new Headers()}) {
     headers.append(`Authorization`, this._authorization);
 
     return fetch(`${this._endPoint}/${url}`, {method, body, headers})
