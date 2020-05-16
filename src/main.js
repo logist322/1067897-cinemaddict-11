@@ -5,38 +5,38 @@ import ContentBoardComponent from './components/content-board.js';
 import PageController from './controllers/page-controller.js';
 import FilterController from './controllers/filter.js';
 import FilmsModel from './models/films.js';
-import {generateFilmCards} from './mock/films.js';
 import {render} from './utils/render.js';
+import API from './api.js';
 
-const MAIN_CARD_COUNT = 22;
+const AUTHORIZATION = `Basic assdsfDSF33f`;
+const END_POINT = `https://11.ecmascript.pages.academy/cinemaddict`;
 
-const films = generateFilmCards(MAIN_CARD_COUNT);
-const filmsModel = new FilmsModel();
-filmsModel.setFilms(films);
 
 const siteHeaderElement = document.querySelector(`.header`);
 const siteMainElement = document.querySelector(`.main`);
 
-render(siteHeaderElement, new ProfileButtonComponent(filmsModel));
+const api = new API(AUTHORIZATION, END_POINT);
+
+const filmsModel = new FilmsModel();
+
 const siteNavigationComponent = new SiteNavigationComponent();
-render(siteMainElement, siteNavigationComponent);
-
-const filterController = new FilterController(siteNavigationComponent.getElement(), filmsModel);
-filterController.render();
-
 const boardComponent = new ContentBoardComponent();
-const pageController = new PageController(boardComponent, filmsModel);
+const pageController = new PageController(boardComponent, filmsModel, api);
+const statisticsComponent = new StatisticsComponent(filmsModel);
+
+render(siteMainElement, siteNavigationComponent);
 render(siteMainElement, boardComponent);
-pageController.render(films);
-
-const dateTo = new Date();
-const dateFrom = (() => {
-  return new Date(dateTo).setDate(dateTo.getDate() - 7);
-})();
-
-const statisticsComponent = new StatisticsComponent(filmsModel, dateFrom, dateTo);
 render(siteMainElement, statisticsComponent);
 statisticsComponent.hide();
+
+api.getFilms()
+  .then((films) => {
+    filmsModel.setFilms(films);
+    render(siteHeaderElement, new ProfileButtonComponent(filmsModel));
+    const filterController = new FilterController(siteNavigationComponent.getElement(), filmsModel);
+    filterController.render();
+    pageController.render(films);
+  });
 
 siteNavigationComponent.setClickHandler((isStatistics) => {
   if (isStatistics) {
