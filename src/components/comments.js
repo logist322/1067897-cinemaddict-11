@@ -11,7 +11,7 @@ const createCommentsMarkup = (comments) => {
           <img src="./images/emoji/${comment.emotion}.png" width="55" height="55" alt="emoji-smile">
         </span>
         <div>
-          <p class="film-details__comment-text">${comment.text}</p>
+          <p class="film-details__comment-text">${comment.comment}</p>
           <p class="film-details__comment-info">
             <span class="film-details__comment-author">${comment.author}</span>
             <span class="film-details__comment-day">${formatDate(comment.date)}</span>
@@ -99,11 +99,11 @@ export default class Comments extends AbstractComponent {
     });
   }
 
-  getInput(handler) {
+  getInput() {
     const textAreaElement = this.getElement().querySelector(`.film-details__comment-input`);
     const text = encode(textAreaElement.value);
 
-    handler(text, this._pickedEmotion);
+    return {comment: text, emotion: this._pickedEmotion};
   }
 
   _subscribeOnEvents() {

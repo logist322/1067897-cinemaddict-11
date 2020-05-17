@@ -20,7 +20,7 @@ const createDetailRowsMarkup = (details) => {
 };
 
 const createFilmPopupTemplate = (film) => {
-  const {name, src, rating, release, duration, genres, description, age, director, writers, actors, country, controls} = film;
+  const {name, altName, src, rating, release, duration, genres, description, age, director, writers, actors, country, controls} = film;
 
   const {isInWatchlist, isWatched, isFavorite} = controls;
 
@@ -45,7 +45,7 @@ const createFilmPopupTemplate = (film) => {
           </div>
           <div class="film-details__info-wrap">
             <div class="film-details__poster">
-              <img class="film-details__poster-img" src="./images/posters/${src}" alt="">
+              <img class="film-details__poster-img" src="./${src}" alt="">
 
               <p class="film-details__age">${age}+</p>
             </div>
@@ -54,7 +54,7 @@ const createFilmPopupTemplate = (film) => {
               <div class="film-details__info-head">
                 <div class="film-details__title-wrap">
                   <h3 class="film-details__title">${name}</h3>
-                  <p class="film-details__title-original">Original: ${name}</p>
+                  <p class="film-details__title-original">Original: ${altName}</p>
                 </div>
 
                 <div class="film-details__rating">
@@ -93,10 +93,6 @@ export default class FilmPopup extends AbstractComponent {
     super();
 
     this._film = film;
-
-    this._currentControls = film.controls;
-
-    this._subscribeOnEvents();
   }
 
   getTemplate() {
@@ -111,9 +107,9 @@ export default class FilmPopup extends AbstractComponent {
     this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, handler);
   }
 
-  _subscribeOnEvents() {
+  setControlsChangeHandler(handler) {
     this.getElement().querySelector(`.film-details__controls`).addEventListener(`change`, (evt) => {
-      this._currentControls[evt.target.dataset.controls] = !this._currentControls[evt.target.dataset.controls];
+      handler(evt.target.dataset.controls);
     });
   }
 }
