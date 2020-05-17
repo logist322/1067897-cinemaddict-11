@@ -33,7 +33,7 @@ export default class API {
     return this._sendRequest({
       url: `movies/${id}`,
       method: Method.PUT,
-      body: film,
+      body: JSON.stringify(film),
       headers: new Headers({"Content-Type": `application/json`})
     })
       .then((res) => res.json())
@@ -51,9 +51,10 @@ export default class API {
     return this._sendRequest({
       url: `comments/${id}`,
       method: Method.POST,
-      body: comment,
+      body: JSON.stringify(comment),
       headers: new Headers({"Content-Type": `application/json`})
-    });
+    })
+      .then((res) => res.json());
   }
 
   deleteComment(id) {

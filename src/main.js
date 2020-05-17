@@ -20,21 +20,24 @@ const api = new API(AUTHORIZATION, END_POINT);
 const filmsModel = new FilmsModel();
 
 const siteNavigationComponent = new SiteNavigationComponent();
+const filterController = new FilterController(siteNavigationComponent.getElement(), filmsModel);
 const boardComponent = new ContentBoardComponent();
 const pageController = new PageController(boardComponent, filmsModel, api);
 const statisticsComponent = new StatisticsComponent(filmsModel);
 
+render(siteHeaderElement, new ProfileButtonComponent(filmsModel));
+filterController.render();
 render(siteMainElement, siteNavigationComponent);
 render(siteMainElement, boardComponent);
+boardComponent.getElement().innerHTML = `<h2 class="films-list__title">Loading...</h2>`;
 render(siteMainElement, statisticsComponent);
 statisticsComponent.hide();
 
 api.getFilms()
   .then((films) => {
+    boardComponent.getElement().innerHTML = ``;
     filmsModel.setFilms(films);
-    render(siteHeaderElement, new ProfileButtonComponent(filmsModel));
-    const filterController = new FilterController(siteNavigationComponent.getElement(), filmsModel);
-    filterController.render();
+
     pageController.render(films);
   });
 

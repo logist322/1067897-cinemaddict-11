@@ -1,6 +1,8 @@
 import CommentsComponent from '../components/comments.js';
 import {render, replace} from '../utils/render.js';
 
+const SHAKE_ANIMATION_TIMEOUT = 600;
+
 const createComment = (comment, emotion) => {
   return {
     comment,
@@ -9,7 +11,7 @@ const createComment = (comment, emotion) => {
   };
 };
 
-export default class MovieController {
+export default class CommentsController {
   constructor(container, comments, commentDeleteHandler, commentAddHandler) {
     this._container = container;
     this._comments = comments;
@@ -39,6 +41,10 @@ export default class MovieController {
     render(this._container, this._commentsComponent);
   }
 
+  refreshButtons() {
+    this._commentsComponent.refreshButtons();
+  }
+
   destroy() {
     this._commentsComponent.removeElement();
     document.removeEventListener(`keydown`, this._keydownHandler);
@@ -48,6 +54,27 @@ export default class MovieController {
     this._comments = comments;
 
     this.render();
+  }
+
+  blockInput() {
+    this._commentsComponent.blockInput();
+  }
+
+  unblockInput() {
+    this._commentsComponent.unblockInput();
+  }
+
+  onError() {
+    this._commentsComponent.getElement().querySelector(`.film-details__comment-input`).style = `box-shadow: 0 0 2px 2px red`;
+    this._commentsComponent.getElement().querySelector(`.film-details__new-comment`).style.animation = `shake ${SHAKE_ANIMATION_TIMEOUT / 1000}s`;
+
+    setTimeout(() => {
+      this._commentsComponent.getElement().querySelector(`.film-details__new-comment`).style.animation = ``;
+    }, SHAKE_ANIMATION_TIMEOUT);
+
+    setTimeout(() => {
+      this._commentsComponent.getElement().querySelector(`.film-details__comment-input`).style = `box-shadow: none`;
+    }, SHAKE_ANIMATION_TIMEOUT * 3);
   }
 
   _keydownHandler(evt) {
