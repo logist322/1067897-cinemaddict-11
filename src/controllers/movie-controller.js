@@ -89,12 +89,17 @@ export default class MovieController {
   }
 
   _commentAddHandler(comment) {
-    this._api.addComment(this._film.id, JSON.stringify(comment))
-      .then((res) => res.json())
-      .then((parsedRes) => {
-        this._film.comments = parsedRes[`comments`];
+    this._commentsController.blockInput();
+
+    this._api.addComment(this._film.id, comment)
+      .then((res) => {
+        this._film.comments = res[`comments`];
         this.render(this._film);
         this._commentsController.setComments(this._film.comments);
+      })
+      .catch(() => {
+        this._commentsController.unblockInput();
+        this._commentsController.onError();
       });
   }
 
@@ -104,6 +109,9 @@ export default class MovieController {
         this._film.comments = this._film.comments.filter((comment) => comment.id !== id);
         this.render(this._film);
         this._commentsController.setComments(this._film.comments);
+      })
+      .catch(() => {
+        this._commentsController.refreshButtons();
       });
   }
 
