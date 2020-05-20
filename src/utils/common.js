@@ -2,7 +2,7 @@ import moment from 'moment';
 
 export const getRandomCountOfElementsFromArray = (array, count) => {
   const arrayCopy = array.slice();
-  let resultArray = [];
+  const resultArray = [];
 
   for (let i = 0; i < count; i++) {
     resultArray.push(...arrayCopy.splice(getRandomNumber(0, arrayCopy.length - 1), 1));
