@@ -1,6 +1,5 @@
 import moment from 'moment';
 
-// once
 export const getRandomCountOfElementsFromArray = (array, count) => {
   const arrayCopy = array.slice();
   const result = [];
@@ -28,30 +27,6 @@ export const getRandomNumber = (min, max, isReal = false) => {
   const result = min + random;
 
   return result > max ? max : result;
-};
-
-// once
-export const getRandomElementFromArray = (array) => {
-  return array[getRandomNumber(0, array.length - 1)];
-};
-
-// once
-export const getRandomDate = (isSettingBigYearRange = false) => {
-  const targetDate = new Date();
-
-  if (isSettingBigYearRange) {
-    targetDate.setFullYear(targetDate.getFullYear() - getRandomNumber(0, 70));
-  }
-
-  targetDate.setDate(targetDate.getDate() - getRandomNumber(0, 30));
-  targetDate.setHours(getRandomNumber(0, 23));
-  targetDate.setMinutes(getRandomNumber(0, 59));
-
-  return targetDate;
-};
-
-export const formatDate = (date) => {
-  return moment(date).format(`YYYY/M/D HH:mm`);
 };
 
 export const createElement = (template) => {

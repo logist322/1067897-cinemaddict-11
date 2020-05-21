@@ -60,7 +60,7 @@ export default class MovieController {
       newData.watchingDate = new Date();
     }
 
-    this._dataChangeHandler(this._film, newData);
+    this._film = this._dataChangeHandler(this._film, newData);
   }
 
   _openPopupHandler() {

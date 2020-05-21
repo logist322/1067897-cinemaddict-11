@@ -5,11 +5,50 @@ import MostCommentedFilmsComponent from '../components/most-commented-films.js';
 import ShowMoreButtonComponent from '../components/show-more-button.js';
 import {render, remove} from '../utils/render.js';
 import MovieController from './movie-controller.js';
+import {getRandomCountOfElementsFromArray} from '../utils/common.js';
 
 const CARD_COUNT_ON_START = 5;
 const CARD_COUNT_ON_CLICK = 5;
 const TOP_CARD_COUNT = 2;
 const MOST_CARD_COUNT = 2;
+
+const getSortedArrayByRating = (array) => {
+  const elementsToSort = array.slice().sort((a, b) => b.rating - a.rating);
+  let result = [];
+
+  while (result.length < TOP_CARD_COUNT) {
+    const countToExtract = elementsToSort.findIndex((element) => element.rating !== elementsToSort[0].rating);
+    let elementsToPush = elementsToSort.splice(0, countToExtract);
+    const restCount = TOP_CARD_COUNT - result.length;
+
+    if (elementsToPush.length >= restCount) {
+      elementsToPush = getRandomCountOfElementsFromArray(elementsToPush, restCount);
+    }
+
+    result = [...result, ...elementsToPush];
+  }
+
+  return result;
+};
+
+const getSortedArrayByComments = (array) => {
+  const elementsToSort = array.slice().sort((a, b) => b.comments.length - a.comments.length);
+  let result = [];
+
+  while (result.length < MOST_CARD_COUNT) {
+    const countToExtract = elementsToSort.findIndex((element) => element.comments.length !== elementsToSort[0].comments.length);
+    let elementsToPush = elementsToSort.splice(0, countToExtract);
+    const restCount = MOST_CARD_COUNT - result.length;
+
+    if (elementsToPush.length >= restCount) {
+      elementsToPush = getRandomCountOfElementsFromArray(elementsToPush, restCount);
+    }
+
+    result = [...result, ...elementsToPush];
+  }
+
+  return result;
+};
 
 const renderFilms = (container, films, dataChangeHandler, api) => {
   return films.map((film) => {
@@ -138,6 +177,9 @@ export default class PageController {
 
         this._updateFilms(false);
       });
+
+
+    return newData;
   }
 
   _removeFilms() {
@@ -176,16 +218,25 @@ export default class PageController {
   }
 
   _renderExtraFilmList() {
-    render(this._container.getElement(), this._topRateFilmsComponent);
-    render(this._container.getElement(), this._mostCommentedFilmsComponent);
+    this._topRatedToShow = getSortedArrayByRating(this._filmsModel.getAllFilms());
 
-    this._topRatedToShow = this._filmsModel.getAllFilms().slice().sort((a, b) => b.rating - a.rating).slice(0, TOP_CARD_COUNT);
+    let topRateControllers = new Array(TOP_CARD_COUNT);
 
-    const topRateControllers = renderFilms(this._topRateFilmsComponent.getElement().querySelector(`.films-list__container`), this._topRatedToShow, this._dataChangeHandler, this._api);
+    if (this._topRatedToShow[0].rating) {
+      render(this._container.getElement(), this._topRateFilmsComponent);
 
-    this._mostCommentedToShow = this._filmsModel.getAllFilms().slice().sort((a, b) => b.comments.length - a.comments.length).slice(0, MOST_CARD_COUNT);
+      topRateControllers = renderFilms(this._topRateFilmsComponent.getElement().querySelector(`.films-list__container`), this._topRatedToShow, this._dataChangeHandler, this._api);
+    }
 
-    const mostCommentedControllers = renderFilms(this._mostCommentedFilmsComponent.getElement().querySelector(`.films-list__container`), this._mostCommentedToShow, this._dataChangeHandler, this._api);
+    this._mostCommentedToShow = getSortedArrayByComments(this._filmsModel.getAllFilms());
+
+    let mostCommentedControllers = new Array(MOST_CARD_COUNT);
+
+    if (this._mostCommentedToShow[0].comments.length) {
+      render(this._container.getElement(), this._mostCommentedFilmsComponent);
+
+      mostCommentedControllers = renderFilms(this._mostCommentedFilmsComponent.getElement().querySelector(`.films-list__container`), this._mostCommentedToShow, this._dataChangeHandler, this._api);
+    }
 
     this._shownFilmsControllers = [...topRateControllers, ...mostCommentedControllers, ...this._shownFilmsControllers];
   }

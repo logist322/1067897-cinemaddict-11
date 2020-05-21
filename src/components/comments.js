@@ -1,4 +1,4 @@
-import {formatDate} from '../utils/common.js';
+import moment from 'moment';
 import AbstractComponent from './abstract-component.js';
 
 import {encode} from 'he';
@@ -14,7 +14,7 @@ const createCommentsMarkup = (comments) => {
           <p class="film-details__comment-text">${comment.comment}</p>
           <p class="film-details__comment-info">
             <span class="film-details__comment-author">${comment.author}</span>
-            <span class="film-details__comment-day">${formatDate(comment.date)}</span>
+            <span class="film-details__comment-day">${moment(comment.date).fromNow()}</span>
             <button class="film-details__comment-delete" data-id="${comment.id}">Delete</button>
           </p>
         </div>
