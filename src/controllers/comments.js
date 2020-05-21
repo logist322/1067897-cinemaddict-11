@@ -1,5 +1,5 @@
 import CommentsComponent from '../components/comments.js';
-import {render, replace} from '../utils/render.js';
+import {render, replace, remove} from '../utils/render.js';
 
 const SHAKE_ANIMATION_TIMEOUT = 600;
 
@@ -46,7 +46,7 @@ export default class CommentsController {
   }
 
   destroy() {
-    this._commentsComponent.removeElement();
+    remove(this._commentsComponent);
     document.removeEventListener(`keydown`, this._keydownHandler);
   }
 
@@ -64,6 +64,16 @@ export default class CommentsController {
     this._commentsComponent.unblockInput();
   }
 
+  blockAll() {
+    this._commentsComponent.blockInput();
+    this._commentsComponent.blockButtons();
+  }
+
+  unblockAll() {
+    this._commentsComponent.unblockInput();
+    this._commentsComponent.refreshButtons();
+  }
+
   onError() {
     this._commentsComponent.getElement().querySelector(`.film-details__comment-input`).style = `box-shadow: 0 0 2px 2px red`;
     this._commentsComponent.getElement().querySelector(`.film-details__new-comment`).style.animation = `shake ${SHAKE_ANIMATION_TIMEOUT / 1000}s`;
@@ -78,7 +88,7 @@ export default class CommentsController {
   }
 
   _keydownHandler(evt) {
-    if (evt.key === `Enter` && evt.ctrlKey) {
+    if (evt.key === `Enter` && (evt.ctrlKey || evt.metaKey)) {
       const newComment = this._commentsComponent.getInput();
 
       this._commentAddHandler(createComment(...Object.values(newComment)));

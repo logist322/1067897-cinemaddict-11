@@ -21,6 +21,8 @@ export default class MovieController {
     this._changeData = this._changeData.bind(this);
     this._commentDeleteHandler = this._commentDeleteHandler.bind(this);
     this._commentAddHandler = this._commentAddHandler.bind(this);
+    this._blockComments = this._blockComments.bind(this);
+    this._unblockComments = this._unblockComments.bind(this);
   }
 
   render(film) {
@@ -65,12 +67,11 @@ export default class MovieController {
     this._filmPopupComponent = new FilmPopupComponent(this._film);
     this._filmPopupComponent.setControlsChangeHandler(this._changeData);
     render(document.body, this._filmPopupComponent);
-    this._api.getComments(this._film.id)
-      .then((res) => {
-        this._film.comments = res;
-        this._commentsController = new CommentsController(this._filmPopupComponent.getElement().querySelector(`form`), this._film.comments, this._commentDeleteHandler, this._commentAddHandler);
-        this._commentsController.render();
-      });
+    this._renderComments();
+
+    window.addEventListener(`online`, this._unblockComments);
+
+    window.addEventListener(`offline`, this._blockComments);
 
     this._filmPopupComponent.setCloseButtonClickHandler(this._closePopupHandler);
 
@@ -79,9 +80,47 @@ export default class MovieController {
     document.addEventListener(`keydown`, this._escapeButtonHandler);
   }
 
+  _renderComments() {
+    this._api.getComments(this._film.id)
+    .then((res) => {
+      this._film.comments = res;
+
+      if (this._commentsController) {
+        this._commentsController.destroy();
+      }
+
+      this._commentsController = new CommentsController(this._filmPopupComponent.getElement().querySelector(`form`), this._film.comments, this._commentDeleteHandler, this._commentAddHandler);
+      this._commentsController.render();
+    })
+    .catch(() => {
+      return;
+    });
+  }
+
+  _blockComments() {
+    if (this._commentsController) {
+      this._commentsController.blockAll();
+    }
+  }
+
+  _unblockComments() {
+    if (this._commentsController) {
+      this._commentsController.unblockAll();
+    }
+
+    this._renderComments();
+  }
+
   _closePopupHandler() {
-    this._commentsController.destroy();
+    if (this._commentsController) {
+      this._commentsController.destroy();
+    }
+
     remove(this._filmPopupComponent);
+
+    window.removeEventListener(`online`, this._unblockComments);
+
+    window.removeEventListener(`offline`, this._blockComments);
 
     document.removeEventListener(`keydown`, this._escapeButtonHandler);
 

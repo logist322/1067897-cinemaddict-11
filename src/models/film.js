@@ -31,9 +31,9 @@ export default class Film {
       "comments": this.comments.map((comment) => {
         if (comment instanceof Object) {
           return comment.id;
-        } else {
-          return comment;
         }
+
+        return comment;
       }),
       "film_info": {
         "title": this.name,

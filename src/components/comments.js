@@ -108,17 +108,21 @@ export default class Comments extends AbstractComponent {
     });
   }
 
+  blockButtons() {
+    this.getElement().querySelectorAll(`.film-details__comment-delete`).forEach((element) => {
+      element.disabled = true;
+    });
+  }
+
   blockInput() {
-    this.getElement().querySelector(`.film-details__comment-input`).disabled = true;
-    this.getElement().querySelectorAll(`.film-details__emoji-item`).forEach((input) => {
-      input.disabled = true;
+    this.getElement().querySelectorAll(`.film-details__emoji-item, .film-details__comment-input`).forEach((element) => {
+      element.disabled = true;
     });
   }
 
   unblockInput() {
-    this.getElement().querySelector(`.film-details__comment-input`).disabled = false;
-    this.getElement().querySelectorAll(`.film-details__emoji-item`).forEach((input) => {
-      input.disabled = false;
+    this.getElement().querySelectorAll(`.film-details__emoji-item, .film-details__comment-input`).forEach((element) => {
+      element.disabled = false;
     });
   }
 

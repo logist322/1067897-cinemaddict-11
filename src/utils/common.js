@@ -1,14 +1,15 @@
 import moment from 'moment';
 
+// once
 export const getRandomCountOfElementsFromArray = (array, count) => {
   const arrayCopy = array.slice();
-  const resultArray = [];
+  const result = [];
 
   for (let i = 0; i < count; i++) {
-    resultArray.push(...arrayCopy.splice(getRandomNumber(0, arrayCopy.length - 1), 1));
+    result.push(...arrayCopy.splice(getRandomNumber(0, arrayCopy.length - 1), 1));
   }
 
-  return resultArray;
+  return result;
 };
 
 export const formatDuration = (duration) => {
@@ -29,10 +30,12 @@ export const getRandomNumber = (min, max, isReal = false) => {
   return result > max ? max : result;
 };
 
+// once
 export const getRandomElementFromArray = (array) => {
   return array[getRandomNumber(0, array.length - 1)];
 };
 
+// once
 export const getRandomDate = (isSettingBigYearRange = false) => {
   const targetDate = new Date();
 
@@ -56,23 +59,4 @@ export const createElement = (template) => {
   newElement.innerHTML = template;
 
   return newElement.firstChild;
-};
-
-export const render = (container, element, position = `beforeend`) => {
-  switch (position) {
-    case `afterend`:
-      container.after(element);
-      break;
-
-    case `beforeend`:
-      container.append(element);
-      break;
-
-    case `afterbegin`:
-      container.prepend(element);
-      break;
-
-    default:
-      throw new Error(`Only 'afterend', 'beforeend' or 'afterbegin'.`);
-  }
 };

@@ -9,11 +9,11 @@ const createGenresMarkup = (genres) => {
 };
 
 const createDetailRowsMarkup = (details) => {
-  return Object.keys(details).map((it) => {
+  return Object.keys(details).map((detail) => {
     return (
       `<tr class="film-details__row">
-        <td class="film-details__term">${it}</td>
-        <td class="film-details__cell">${details[it]}</td>
+        <td class="film-details__term">${detail}</td>
+        <td class="film-details__cell">${details[detail]}</td>
       </tr>`
     );
   }).join(`\n`);

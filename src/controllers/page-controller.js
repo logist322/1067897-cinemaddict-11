@@ -12,10 +12,10 @@ const TOP_CARD_COUNT = 2;
 const MOST_CARD_COUNT = 2;
 
 const renderFilms = (container, films, dataChangeHandler, api) => {
-  return films.map((it) => {
+  return films.map((film) => {
     const filmController = new MovieController(container, dataChangeHandler, api);
 
-    filmController.render(it);
+    filmController.render(film);
 
     return filmController;
   });
