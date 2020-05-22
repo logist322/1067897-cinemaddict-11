@@ -23,7 +23,7 @@ const getSortedArrayByRating = (array) => {
 
   while (result.length < TOP_CARD_COUNT) {
     const countToExtract = elementsToSort.findIndex((element) => element.rating !== elementsToSort[0].rating);
-    let elementsToPush = elementsToSort.splice(0, countToExtract);
+    let elementsToPush = elementsToSort.splice(0, countToExtract === -1 ? elementsToSort.length : countToExtract);
     const restCount = TOP_CARD_COUNT - result.length;
 
     if (elementsToPush.length >= restCount) {
@@ -47,7 +47,7 @@ const getSortedArrayByComments = (array) => {
 
   while (result.length < MOST_CARD_COUNT) {
     const countToExtract = elementsToSort.findIndex((element) => element.comments.length !== elementsToSort[0].comments.length);
-    let elementsToPush = elementsToSort.splice(0, countToExtract);
+    let elementsToPush = elementsToSort.splice(0, countToExtract === -1 ? elementsToSort.length : countToExtract);
     const restCount = MOST_CARD_COUNT - result.length;
 
     if (elementsToPush.length >= restCount) {
