@@ -1,5 +1,3 @@
-import Film from './models/film.js';
-
 const Method = {
   GET: `GET`,
   POST: `POST`,
@@ -25,8 +23,7 @@ export default class API {
     return this._sendRequest({
       url: `movies`
     })
-      .then((res) => res.json())
-      .then(Film.parseFilms);
+      .then((res) => res.json());
   }
 
   updateFilm(id, film) {
@@ -36,8 +33,7 @@ export default class API {
       body: JSON.stringify(film),
       headers: new Headers({"Content-Type": `application/json`})
     })
-      .then((res) => res.json())
-      .then(Film.parseFilm);
+      .then((res) => res.json());
   }
 
   getComments(id) {
@@ -59,6 +55,16 @@ export default class API {
 
   deleteComment(id) {
     return this._sendRequest({url: `comments/${id}`, method: Method.DELETE});
+  }
+
+  sync(data) {
+    return this._sendRequest({
+      url: `movies/sync`,
+      method: Method.POST,
+      body: JSON.stringify(data),
+      headers: new Headers({"Content-Type": `application/json`})
+    })
+      .then((response) => response.json());
   }
 
   _sendRequest({url, method = Method.GET, body = null, headers = new Headers()}) {

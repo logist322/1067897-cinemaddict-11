@@ -2,13 +2,13 @@ import moment from 'moment';
 
 export const getRandomCountOfElementsFromArray = (array, count) => {
   const arrayCopy = array.slice();
-  const resultArray = [];
+  const result = [];
 
   for (let i = 0; i < count; i++) {
-    resultArray.push(...arrayCopy.splice(getRandomNumber(0, arrayCopy.length - 1), 1));
+    result.push(...arrayCopy.splice(getRandomNumber(0, arrayCopy.length - 1), 1));
   }
 
-  return resultArray;
+  return result;
 };
 
 export const formatDuration = (duration) => {
@@ -29,50 +29,9 @@ export const getRandomNumber = (min, max, isReal = false) => {
   return result > max ? max : result;
 };
 
-export const getRandomElementFromArray = (array) => {
-  return array[getRandomNumber(0, array.length - 1)];
-};
-
-export const getRandomDate = (isSettingBigYearRange = false) => {
-  const targetDate = new Date();
-
-  if (isSettingBigYearRange) {
-    targetDate.setFullYear(targetDate.getFullYear() - getRandomNumber(0, 70));
-  }
-
-  targetDate.setDate(targetDate.getDate() - getRandomNumber(0, 30));
-  targetDate.setHours(getRandomNumber(0, 23));
-  targetDate.setMinutes(getRandomNumber(0, 59));
-
-  return targetDate;
-};
-
-export const formatDate = (date) => {
-  return moment(date).format(`YYYY/M/D HH:mm`);
-};
-
 export const createElement = (template) => {
   const newElement = document.createElement(`div`);
   newElement.innerHTML = template;
 
   return newElement.firstChild;
-};
-
-export const render = (container, element, position = `beforeend`) => {
-  switch (position) {
-    case `afterend`:
-      container.after(element);
-      break;
-
-    case `beforeend`:
-      container.append(element);
-      break;
-
-    case `afterbegin`:
-      container.prepend(element);
-      break;
-
-    default:
-      throw new Error(`Only 'afterend', 'beforeend' or 'afterbegin'.`);
-  }
 };

@@ -17,10 +17,10 @@ const createFilmCardTemplate = (film) => {
       <p class="film-card__info">
         <span class="film-card__year">${releaseYear}</span>
         <span class="film-card__duration">${durationInFormat}</span>
-        <span class="film-card__genre">${genres[0]}</span>
+        <span class="film-card__genre">${genres[0] || ``}</span>
       </p>
       <img src="./${src}" alt="" class="film-card__poster">
-      <p class="film-card__description">${description}</p>
+      <p class="film-card__description">${description.length > 140 ? `${description.slice(0, 140)}...` : description}</p>
       <a class="film-card__comments">${commentsCount} comments</a>
       <form class="film-card__controls">
         <button data-controls="isInWatchlist" class="film-card__controls-item ${isInWatchlist ? `film-card__controls-item--active` : ``} button film-card__controls-item--add-to-watchlist">Add to watchlist</button>
