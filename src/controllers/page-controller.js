@@ -14,6 +14,11 @@ const MOST_CARD_COUNT = 2;
 
 const getSortedArrayByRating = (array) => {
   const elementsToSort = array.slice().sort((a, b) => b.rating - a.rating);
+
+  if (elementsToSort[0].rating === 0) {
+    return false;
+  }
+
   let result = [];
 
   while (result.length < TOP_CARD_COUNT) {
@@ -33,6 +38,11 @@ const getSortedArrayByRating = (array) => {
 
 const getSortedArrayByComments = (array) => {
   const elementsToSort = array.slice().sort((a, b) => b.comments.length - a.comments.length);
+
+  if (elementsToSort[0].comments.length === 0) {
+    return false;
+  }
+
   let result = [];
 
   while (result.length < MOST_CARD_COUNT) {
@@ -50,9 +60,9 @@ const getSortedArrayByComments = (array) => {
   return result;
 };
 
-const renderFilms = (container, films, dataChangeHandler, api) => {
+const renderFilms = (container, films, dataChangeHandler, api, updateHandler) => {
   return films.map((film) => {
-    const filmController = new MovieController(container, dataChangeHandler, api);
+    const filmController = new MovieController(container, dataChangeHandler, api, updateHandler);
 
     filmController.render(film);
 
@@ -102,6 +112,7 @@ export default class PageController {
     this._sortHandler = this._sortHandler.bind(this);
     this._dataChangeHandler = this._dataChangeHandler.bind(this);
     this._filterChangeHandler = this._filterChangeHandler.bind(this);
+    this._updateFilms = this._updateFilms.bind(this);
 
     this._sortComponent.setClickHandler(this._sortHandler);
     this._filmsModel.setFilterChangeHandler(this._filterChangeHandler);
@@ -208,7 +219,7 @@ export default class PageController {
   }
 
   _renderFilms(films) {
-    const newFilms = renderFilms(this._mainListFilmsComponent.getElement().querySelector(`.films-list__container`), films, this._dataChangeHandler, this._api);
+    const newFilms = renderFilms(this._mainListFilmsComponent.getElement().querySelector(`.films-list__container`), films, this._dataChangeHandler, this._api, this._updateFilms);
 
     this._shownFilmsControllers = [...this._shownFilmsControllers, ...newFilms];
   }
@@ -222,7 +233,7 @@ export default class PageController {
 
     let topRateControllers = new Array(TOP_CARD_COUNT);
 
-    if (this._topRatedToShow[0].rating) {
+    if (this._topRatedToShow) {
       render(this._container.getElement(), this._topRateFilmsComponent);
 
       topRateControllers = renderFilms(this._topRateFilmsComponent.getElement().querySelector(`.films-list__container`), this._topRatedToShow, this._dataChangeHandler, this._api);
@@ -232,7 +243,7 @@ export default class PageController {
 
     let mostCommentedControllers = new Array(MOST_CARD_COUNT);
 
-    if (this._mostCommentedToShow[0].comments.length) {
+    if (this._mostCommentedToShow) {
       render(this._container.getElement(), this._mostCommentedFilmsComponent);
 
       mostCommentedControllers = renderFilms(this._mostCommentedFilmsComponent.getElement().querySelector(`.films-list__container`), this._mostCommentedToShow, this._dataChangeHandler, this._api);

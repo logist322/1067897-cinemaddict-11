@@ -5,9 +5,10 @@ import Film from '../models/film.js';
 import {render, replace, remove} from '../utils/render.js';
 
 export default class MovieController {
-  constructor(container, dataChangeHandler, api) {
+  constructor(container, dataChangeHandler, api, updateHandler) {
     this._container = container;
     this._dataChangeHandler = dataChangeHandler;
+    this._updateHandler = updateHandler;
     this._api = api;
 
     this._film = null;
@@ -125,6 +126,8 @@ export default class MovieController {
     document.removeEventListener(`keydown`, this._escapeButtonHandler);
 
     document.body.classList.remove(`hide-overflow`);
+
+    this._updateHandler(false);
   }
 
   _commentAddHandler(comment) {

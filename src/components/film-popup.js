@@ -3,9 +3,20 @@ import AbstractComponent from './abstract-component.js';
 import moment from 'moment';
 
 const createGenresMarkup = (genres) => {
-  return genres.map((genre) => {
+  if (!genres.length) {
+    return ``;
+  }
+
+  const genresListMarkup = genres.map((genre) => {
     return `<span class="film-details__genre">${genre}</span>`;
   }).join(`\n`);
+
+  return (
+    `<tr class="film-details__row">
+      <td class="film-details__term">${genres.length === 1 ? `Genre` : `Genres`}</td>
+      <td class="film-details__cell">${genresListMarkup}</td>
+    </tr>`
+  );
 };
 
 const createDetailRowsMarkup = (details) => {
@@ -30,10 +41,10 @@ const createFilmPopupTemplate = (film) => {
     'Actors': actors.join(`, `),
     'Release Date': moment(release).format(`D MMMM YYYY`),
     'Runtime': formatDuration(duration),
-    'Country': country,
-    'Genres': createGenresMarkup(genres)
+    'Country': country
   };
 
+  const genresMarkup = createGenresMarkup(genres);
   const detailRowsMarkup = createDetailRowsMarkup(details);
 
   return (
@@ -64,6 +75,7 @@ const createFilmPopupTemplate = (film) => {
 
               <table class="film-details__table">
                 ${detailRowsMarkup}
+                ${genresMarkup}
               </table>
 
               <p class="film-details__film-description">
